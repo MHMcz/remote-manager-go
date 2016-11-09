@@ -14,7 +14,7 @@ import (
 	"os/user"
 )
 
-type remoteConfig struct {
+type RemoteConfig struct {
 	Name               string
 	Alias              string
 	Username           string
@@ -24,27 +24,27 @@ type remoteConfig struct {
 	McDefaultDirRemote string
 }
 
-type groupConfig struct {
+type GroupConfig struct {
 	Name    string
 	Alias   string
 	AliasMc string
-	Remotes []remoteConfig
+	Remotes []RemoteConfig
 }
 
-type config struct {
-	Groups []groupConfig
+type Configuration struct {
+	Groups []GroupConfig
 }
 
-func Config() *config {
-	c := new(config)
+func Config() *Configuration {
+	c := new(Configuration)
 	c.ReloadConfig()
 	if c.Groups == nil {
-		c.Groups = make([]groupConfig, 0)
+		c.Groups = make([]GroupConfig, 0)
 	}
 	return c
 }
 
-func (c config) ReloadConfig() {
+func (c *Configuration) ReloadConfig() {
 	file, err := os.Open(getConfigPath())
 	if err == nil {
 		decoder := json.NewDecoder(file)
@@ -55,7 +55,7 @@ func (c config) ReloadConfig() {
 	}
 }
 
-func (c config) SaveConfig() {
+func (c *Configuration) SaveConfig() {
 	file, _ := os.Create(getConfigPath())
 	file.Chmod(0600)
 	encoder := json.NewEncoder(file)

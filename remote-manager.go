@@ -8,12 +8,13 @@
 package main
 
 import (
-	"fmt"
 	"remote-manager/config"
+	"remote-manager/frontend/ncurses"
 )
 
 func main() {
 	c := config.Config()
-	c.SaveConfig()
-	fmt.Println(c)
+	ncurses.Run(c)
+
+	return
 }
